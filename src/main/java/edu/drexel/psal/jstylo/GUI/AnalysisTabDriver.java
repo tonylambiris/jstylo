@@ -726,7 +726,7 @@ public class AnalysisTabDriver {
 				if (main.lpfeAPI.isUsingCache())
 					main.lpfeAPI.validateCFDCache(main.cfd);
 				if (main.lpfeAPI.isChunkingDocs())
-				    Chunker.chunkAllTrainDocs(main.lpfeAPI.getProblemSet());
+				    Chunker.chunkAllTrainDocs(main.lpfeAPI.getProblemSet(),500); //500 is magic number / default chunk size.
 				
 				List<List<EventSet>> eventList = null;
 				try {

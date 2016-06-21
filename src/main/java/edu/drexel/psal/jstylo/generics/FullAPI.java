@@ -60,6 +60,7 @@ public class FullAPI {
 		private boolean chunkDocs = false;
 		private boolean applyInfoGain = false;
 		private int featuresToKeep = 500;
+		private int chunkSize = 500;
 		
 		public Builder(){
 			
@@ -143,6 +144,11 @@ public class FullAPI {
 			return this;
 		}
 		
+		public Builder chunkSize(Integer cs){
+		    chunkSize = cs;
+		    return this;
+		}
+		
 		public FullAPI build(){
 			return new FullAPI(this);
 		}
@@ -165,6 +171,7 @@ public class FullAPI {
 	CumulativeFeatureDriver cfd;
 	double[][] featureWeights;
 	int numFeaturesToKeep;
+	int chunkSize;
 	boolean applyInfoGain;
 	DataMap training;
 	DataMap testing;
@@ -211,6 +218,7 @@ public class FullAPI {
 		analysisDriver = b.analyzer;
 		numFeaturesToKeep = b.featuresToKeep;
 		applyInfoGain = b.applyInfoGain;
+		chunkSize = b.chunkSize;
 	}
 	
 	///////////////////////////////// Methods
@@ -224,7 +232,7 @@ public class FullAPI {
 			if (ib.isUsingCache())
 				ib.validateCFDCache(cfd);
 			if (ib.isChunkingDocs())
-			    Chunker.chunkAllTrainDocs(ib.getProblemSet());
+			    Chunker.chunkAllTrainDocs(ib.getProblemSet(),chunkSize);
 			List<List<EventSet>> eventList = ib.extractEventsThreaded(cfd); //extracts events from documents
 			List<EventSet> relevantEvents = ib.getRelevantEvents(eventList,cfd); //creates the List<EventSet> to pay attention to
 			List<String> features = ib.getFeatureList(eventList,relevantEvents, cfd); //creates the attribute list to base the Instances on

@@ -128,14 +128,14 @@ public final class Chunker {
 	 * of times the feature cache for the chunked documents will become invalid.
 	 * @param ps
 	 */
-	public static void chunkAllTrainDocs(ProblemSet ps) {
+	public static void chunkAllTrainDocs(ProblemSet ps, int chunkSize) {
 		if (!chunkTrainDocs) {
 		    LOG.warn("Chunking is turned off. Training documents will be used as-is");
 			return;
 			}
 		List<Document> testDocuments = ps.getAllTestDocs();
 
-		int chunkSize = chunkDefaultSize;
+		//int chunkSize = chunkDefaultSize;
 		if (testDocuments.size() == 0) {
 			LOG.info("INFO: No test documents found. Will use chunkDefaultSize as default chunk size.");
 		} else {
@@ -275,7 +275,12 @@ public final class Chunker {
 		 * The second line onward is just a list of "last modified" values for the sorted (by title) list
 		 * of training documents. Each line is compared to the "last modified" values of the current training docs.
 		 */
+	    
+	    //TODO caching was having some problems. Not sure if chunk caching in particular or not.
+	    //for now, just rechunk each time
+	    return false;
 		
+	    /*
 		if (!chunkDir.exists() || !chunkDir.isDirectory()) {
 			return false;
 		}
@@ -340,6 +345,7 @@ public final class Chunker {
 		}
 		
 		return isValid;
+		*/
 	}
 	/**
 	 * This will create the hash file for the chunked training documents. This hash file ensures
